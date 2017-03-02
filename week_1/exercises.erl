@@ -1,6 +1,7 @@
 %% Pattern Matching
 
 -module(exercises).
+-include_lib("eunit/include/eunit.hrl").
 -export([xor_1/2, xor_2/2, xor_3/2, xor_4/2, xor_5/2, maxThree/3, howManyEqual/3]).
 
 
@@ -31,6 +32,26 @@ xor_4(false, X) ->
 xor_5(X,Y) ->
   (X or Y) and (not X or not Y).
 
+%% Tests
+
+xor_3_test() ->
+  false = xor_3(true, true),
+  false = xor_3(false, false),
+  true = xor_3(true, false),
+  true = xor_3(false, true).
+
+xor_4_test() ->
+  false = xor_4(true, true),
+  false = xor_4(false, false),
+  true = xor_4(true, false),
+  true = xor_4(false, true).
+
+xor_5_test() ->
+  false = xor_5(true, true),
+  false = xor_5(false, false),
+  true = xor_5(true, false),
+  true = xor_5(false, true).
+
 
 %% Maximum of three
 %% Give a definition of the function maxThree which takes three integers and
@@ -41,6 +62,13 @@ xor_5(X,Y) ->
 
 maxThree(X,Y,Z) ->
   max(max(X,Y),Z).
+
+%% Tests
+
+maxThree_test() ->
+  3 = maxThree(1,2,3),
+  1 = maxThree(1,0,-1),
+  2 = maxThree(1,2,1).
 
 
 %% How many equal?
@@ -62,3 +90,12 @@ howManyEqual(_,X,X) ->
   2;
 howManyEqual(_,_,_) ->
   0.
+
+%% Tests
+
+howManyEqual_test() ->
+  3 = howManyEqual(1,1,1),
+  2 = howManyEqual(1,1,2),
+  2 = howManyEqual(1,2,1),
+  2 = howManyEqual(2,1,1),
+  0 = howManyEqual(1,2,3).

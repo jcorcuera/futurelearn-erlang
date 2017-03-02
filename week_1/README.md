@@ -62,3 +62,16 @@ foo
 
 * Can be data themselves.
 * Can be arguments of other functions.
+
+## Guards
+
+* Can contain arithmetical operations and comparisons.
+* Can be combined with `and` (`,`) and `or` (`;`).
+* Can't use user-defined function.
+
+```erlang
+greater_than_16(N) when N>16 -> true;
+greater_than_16(_) -> false.
+```
+
+

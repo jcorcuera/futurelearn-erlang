@@ -1,6 +1,6 @@
 %% Pattern Matching
 
--module(exercises).
+-module(exercises_1_15).
 -include_lib("eunit/include/eunit.hrl").
 -export([xor_1/2, xor_2/2, xor_3/2, xor_4/2, xor_5/2, maxThree/3, howManyEqual/3]).
 

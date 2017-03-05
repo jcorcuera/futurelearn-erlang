@@ -35,7 +35,7 @@ area({triangle, {B, H}, _, _, _}) ->
 
 
 enclose({circle, {X, Y}, R}) ->
-  {rectangle, {X, Y}, R, R};
+  {rectangle, {X, Y}, R*2, R*2};
 
 enclose({rectangle, {X, Y}, H, W}) ->
   {rectangle, {X, Y}, H, W};

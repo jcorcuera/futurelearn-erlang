@@ -10,10 +10,10 @@
 %% Define an Erlang function double/1 to double the elements of a list of numbers.
 
 double(List) ->
-  lists:reverse(double(List, [])).
+  double(List, []).
 
 double([], Result) ->
-  Result;
+  lists:reverse(Result);
 
 double([H|T], Result) ->
   double(T, [H * 2 | Result]).
@@ -22,10 +22,10 @@ double([H|T], Result) ->
 %% Define a function evens/1 that extracts the even numbers from a list of integers.
 
 evens(List) ->
-  lists:reverse(evens(List, [])).
+  evens(List, []).
 
 evens([], Result) ->
-  Result;
+  lists:reverse(Result);
 
 evens([H|T], Result) ->
   case H rem 2 of

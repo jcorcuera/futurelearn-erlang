@@ -11,13 +11,13 @@
 -spec take(integer(), [T]) -> [T].
 
 take(N, List) ->
-  lists:reverse(take(N, List, [])).
+  take(N, List, []).
 
 take(0, _List, Result) ->
-  Result;
+  lists:reverse(Result);
 
 take(_N, [], Result) ->
-  Result;
+  lists:reverse(Result);
 
 take(N, [H|T], Result) when N > 0 ->
   take(N-1, T, [H| Result]).

@@ -13,10 +13,11 @@ palindrome([], Result) ->
   Result == lists:reverse(Result);
 
 palindrome([H|T], Result)  when (H >= "a" andalso H =< "z") orelse (H >= "A" andalso H =< "Z") ->
-  palindrome(T, [H|Result]);
+  palindrome(T, [string:to_lower(H)|Result]);
 
 palindrome([_|T], Result) ->
   palindrome(T, Result).
 
 palindrome_test() ->
-  ?assertEqual(palindrome("Madam I\'m Adam"), true).
+  ?assertEqual(palindrome("Madam I\'m Adam"), true),
+  ?assertEqual(palindrome("Never odd or even"), true).

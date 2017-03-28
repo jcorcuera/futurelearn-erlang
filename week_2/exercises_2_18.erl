@@ -2,7 +2,8 @@
 
 -include_lib("eunit/include/eunit.hrl").
 
--export([join/2, concat/1, member/2, merge_sort/1, quick_sort/1]).
+-export([join/2, concat/1, member/2]).
+-export([merge_sort/1, quick_sort/1, insertion_sort/1]).
 
 %% Joining lists together
 %%
@@ -33,7 +34,7 @@ join([H|T], L2, Result) ->
 
 
 join_test() ->
-  ?assertEqual(join("hel", "lo"), "hello").
+  ?assertEqual("hello", join("hel", "lo")).
 
 
 
@@ -44,7 +45,7 @@ concat([L]) ->
   L.
 
 concat_test() ->
-  ?assertEqual(concat(["goo","d","","by","e"]), "goodbye").
+  ?assertEqual("goodbye", concat(["goo","d","","by","e"])).
 
 
 %%
@@ -65,8 +66,8 @@ member(E, [_|T]) ->
   member(E, T).
 
 member_test() ->
-  ?assertEqual(member(2,[2,0,0,1]), true),
-  ?assertEqual(member(20,[2,0,0,1]), false).
+  ?assertEqual(true, member(2,[2,0,0,1])),
+  ?assertEqual(false, member(20,[2,0,0,1])).
 
 
 
@@ -114,8 +115,8 @@ merge_tail(SL1= [H1|_], [H2|T2], Sorted) when H2 =< H1 ->
 %% Tests
 
 merge_sort_test() ->
-  ?assertEqual(merge_sort([7,3,4,5,2,1,6]), [1,2,3,4,5,6,7]),
-  ?assertEqual(merge_sort([6,3,4,5,1,2]), [1,2,3,4,5,6]).
+  ?assertEqual([1,2,3,4,5,6,7], merge_sort([7,3,4,5,2,1,6])),
+  ?assertEqual([1,2,3,4,5,6], merge_sort([6,3,4,5,1,2])).
 
 
 %%
@@ -150,8 +151,8 @@ split_by_pivot_tail(Pivot, [H|T], Lower, Greater) when H >= Pivot ->
   split_by_pivot_tail(Pivot, T, Lower, [H|Greater]).
 
 quick_sort_test() ->
-  ?assertEqual(quick_sort([7,3,4,5,2,1,6]), [1,2,3,4,5,6,7]),
-  ?assertEqual(quick_sort([6,3,4,5,1,2]), [1,2,3,4,5,6]).
+  ?assertEqual([1,2,3,4,5,6,7], quick_sort([7,3,4,5,2,1,6])),
+  ?assertEqual([1,2,3,4,5,6], quick_sort([6,3,4,5,1,2])).
 
 
 
@@ -159,8 +160,28 @@ quick_sort_test() ->
 %% Insertion sort: sort the tail of the list and then insert the head of the list in the correct place.
 %%
 
+insertion_sort(List) ->
+  insertion_sort(List, []).
 
+insertion_sort([], Sorted) ->
+  Sorted;
 
+insertion_sort([H|T], Sorted) ->
+  NewSorted = insert(H, Sorted, []),
+  insertion_sort(T, NewSorted).
+
+insert(E, [], Result) ->
+  lists:reverse([E|Result]);
+
+insert(E, List=[H|_T], Result) when E =< H->
+  lists:reverse(Result) ++ [E|List];
+
+insert(E, [H|T], Result) ->
+  insert(E, T, [H|Result]).
+
+insertion_sort_test() ->
+  ?assertEqual([1,2,3,4,5,6,7], insertion_sort([7,3,4,5,2,1,6])),
+  ?assertEqual([1,2,3,4,5,6], insertion_sort([6,3,4,5,1,2])).
 
 %%
 %% Permutations

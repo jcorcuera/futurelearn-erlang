@@ -4,6 +4,7 @@
 
 -export([join/2, concat/1, member/2]).
 -export([merge_sort/1, quick_sort/1, insertion_sort/1]).
+-export([perms/1]).
 
 %% Joining lists together
 %%
@@ -189,3 +190,31 @@ insertion_sort_test() ->
 %%
 %% perms([]) = [[]]
 %% perms([1,2,3]) = [[1,2,3],[2,3,1],[3,1,2],[2,1,3],[1,3,2],[3,2,1]]
+
+perms([]) ->
+  [[]];
+
+perms(List) ->
+  perms(List, [], []).
+
+perms([], [], _Result) ->
+  [[]];
+
+perms([], _PermutedElements, Result) ->
+  lists:reverse(Result);
+
+perms([H|T], PermutedElements, Result) ->
+  Permutations = perms(PermutedElements ++ T, [], []),
+  NewResults = add_to_permutations(H, Permutations, []),
+  perms(T, [H|PermutedElements], NewResults ++ Result).
+
+add_to_permutations(_E, [], Acc) ->
+  Acc;
+
+add_to_permutations(E, [H|T], Acc) ->
+  add_to_permutations(E, T, [[E|H]|Acc]).
+
+perms_test() ->
+  ?assertEqual([[1]], perms([1])),
+  ?assertEqual([[1,2], [2,1]], perms([1,2])),
+  ?assertEqual([[1,2,3],[1,3,2],[2,1,3],[2,3,1],[3,2,1],[3,1,2]], perms([1,2,3])).

@@ -1,5 +1,5 @@
 -module(index).
--export([get_file_contents/1,show_file_contents/1]).
+-export([get_file_contents/1]).
 
 % Used to read a file into a list of lines.
 % Example files available in:
@@ -31,15 +31,9 @@ get_all_lines(File,Partial) ->
       get_all_lines(File,[Strip|Partial])
   end.
 
-% Show the contents of a list of strings.
-% Can be used to check the results of calling get_file_contents.
-
-show_file_contents([L|Ls]) ->
-  io:format("~s~n",[L]),
-  show_file_contents(Ls);
-
-show_file_contents([]) ->
-  ok.
+%% Parse Lines
+%% Check if line is empty, otherwise extract words longer than 3 characters.
+%% Pass lists of words into a dictionary building function.
 
 parse_lines(Lines) ->
   parse_lines(Lines, 1, []).
@@ -59,6 +53,11 @@ parse_lines([L|Ls], LineNumber, Dictionary) ->
       parse_lines(Ls, LineNumber + 1, Dictionary)
   end.
 
+
+%% Update Dictionary
+%% Takes each word, normalizes them, searchs the word in the dictionary,
+%% extract the word from the dictionary to later insert an updated one.
+
 update_dictionary([], _LineNumber, Dictionary) ->
   Dictionary;
 
@@ -71,6 +70,10 @@ update_dictionary([[W]|Ws], LineNumber, Dictionary) ->
     _ ->
       update_dictionary(Ws, LineNumber, [{NormalizedWord, [{LineNumber, LineNumber}]} | Dictionary])
   end.
+
+
+%% Add Index
+%% Check if the index needs to be updated or just insert a new one.
 
 add_index(LineNumber, Indexes)->
   {First, Last} = lists:last(Indexes),
